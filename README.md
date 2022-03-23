@@ -229,7 +229,14 @@ sudo poweroff
 sudo reboot
 ```
 ### Whats the very best task and resource manager for cli?
-Still `htop`, for trend lines use `dstat`
+`glances`, `htop`, for trend lines use `dstat`
+```
+python3 -m pip install glances
+sudo apt-get install python3-bottle
+sudo apt-get install -y htop
+sudo apt-get install -y dstat
+```
+Navigate to [http://0.0.0.0:61208/](http://0.0.0.0:61208/) on your browser.
 
 # Skripting
 * tempmon: shows cpu temperature by core; updated every 3 seconds
