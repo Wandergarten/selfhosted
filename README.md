@@ -188,8 +188,10 @@ systemctl status update-db -l
 ```
 
 ### How to bind NTFS HDD
+TO DO 
 
 ### How to perform a full image backup
+TO DO
 
 ### Which devices are currently mounted via USB?
 Use either: 
@@ -238,9 +240,16 @@ sudo apt-get install -y dstat
 ```
 Navigate to [http://0.0.0.0:61208/](http://0.0.0.0:61208/) on your browser.
 
+### Where am I?
+`pwd`
+
 # Skripting
-* tempmon: shows cpu temperature by core; updated every 3 seconds
+* tempmon.sh: shows cpu temperature by core; updated every 3 seconds - lies in `/home/odroid`
 ```
 #!/bin/bash
 watch -n 3 cat /sys/devices/virtual/thermal/thermal_zone*/temp
+```
+allow execution: 
+```
+chmod +x tempmon.sh
 ```
