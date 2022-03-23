@@ -190,7 +190,29 @@ systemctl status update-db -l
 ```
 
 ### How to bind NTFS HDD
-TO DO 
+1. Install package `ntfs-3g`
+```
+sudo apt-get install -y ntfs-3g
+```
+2. Get location of plugged HDD
+```
+sudo blkid
+/dev/mmcblk1p2: LABEL="rootfs" UUID="2134-432432-23423-234234-123112" TYPE="ext4" PARTUUID="1234312-12"
+/dev/mmcblk1p1: SEC_TYPE="msdos" LABEL_FATBOOT="boot" LABEL="boot" UUID="1234-1234" TYPE="vfat" PARTUUID="1234312-12"
+/dev/loop0: TYPE="squashfs"
+/dev/loop1: TYPE="squashfs"
+/dev/sda1: PARTLABEL="Microsoft reserved partition" PARTUUID="123123-234234-234234-234234-234234"
+/dev/sda2: LABEL="MediaStash" UUID="2342343242" TYPE="ntfs" PTTYPE="atari" PARTLABEL="Basic data partition" PARTUUID="656rtzrtz-rtzrtz-rtzrtz-rtztz-rtzrtz"
+```
+-> sda2 with UUI="2342343242"
+3. Create folder via `sudo mkdir /media/Datas` and mount the partition into `/media/Datas`
+```
+sudo mount /dev/sda2 -t ntfs-3g -o permissions /media/Datas/
+```
+4. In `cd /etc/` edit file fstab via `sudo nano fstab`
+```
+/dev/sda2 /media/Datas ntfs-3g defaults 0 0
+```
 
 ### How to perform a full image backup
 TO DO
