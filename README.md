@@ -1,5 +1,7 @@
 # hardkerneled
 
+<img src="https://wiki.odroid.com/_media/odroid-xu4/hardware/xu4_detail.jpg">
+
 ## Hardware
 Hardkernel Odroid-[XU4Q](https://www.hardkernel.com/product-tag/odroid-xu4q/) (copper heat sink) and Hardkernel Odroid-[XU4](https://www.hardkernel.com/product-tag/odroid-xu4/) (fan): 
 * CPU: Samsung Exynos 5 Octa (5422) with big.LITTLE-Architecture and Heterogeneous Multi-Processing as used in Galaxy S5 smartphone (2014; 28nm)
@@ -18,8 +20,7 @@ Hardkernel Odroid-[XU4Q](https://www.hardkernel.com/product-tag/odroid-xu4q/) (c
 * Power Supply: 5V/4A
 * Storage: 64 GB SanDisk SD-Card
 * Wifi-Dongle: Ralink RT5370 chipset
-
-<img src="https://wiki.odroid.com/_media/odroid-xu4/hardware/xu4_detail.jpg">
+* Case: [Black](https://www.hardkernel.com/shop/odroid-xu4-case-black/)
 
 Take-Away: Hardkernel's done a great job in general, unfortunately though USB-connections are very buggy, basically only one of the three USB interfaces works reliably. Especially after years in use. Also, built-in Wifi is definitely going to be a must-have for future SBCs. 
 
@@ -55,7 +56,7 @@ Take-Away: Hardkernel's done a great job in general, unfortunately though USB-co
 
 ## Software
 
-## First Things First
+### First Things First
 Get latest updates for Ubuntu & installed software zoo:
 ```
 sudo apt-get update && sudo apt-get -y upgrade
@@ -91,14 +92,9 @@ dpkg -i emby-server-deb_4.6.7.0_armhf.deb
 systemctl enable emby-server.service
 ```
 
-#### How to start Emby Server on Boot
-```
-
-```
 Verify via: 
 ```
 systemctl status emby-server -l
-journalctl -b | grep emby
 ```
 
 ### Calibre Web
@@ -165,6 +161,8 @@ sudo systemctl enable cps.service
 and validate success:
 ```
 systemctl | grep cps
+systemctl status cps -l
+
 ```
 
 #### How to automatically add new elements into Calibre on boot
@@ -186,7 +184,7 @@ sudo systemctl enable update-db.service
 ```
 and validate success:
 ```
-systemctl list-unit-files --type=service | grep update-db
+systemctl status update-db -l
 ```
 
 ### How to bind NTFS HDD
@@ -230,6 +228,9 @@ Verify after reboot by typing into terminal `cat /sys/module/usbcore/parameters/
 sudo poweroff
 sudo reboot
 ```
+### Whats the very best task and resource manager for cli?
+Still `htop`, for trend lines use `dstat`
+
 # Skripting
 * tempmon: shows cpu temperature by core; updated every 3 seconds
 ```
