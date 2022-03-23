@@ -1,0 +1,11 @@
+[Unit]
+Description=Calibre-Web
+
+[Service]
+Type=simple
+User=odroid
+ExecStart=/opt/venv/bin/python /opt/venv/bin/cps
+
+[Install]
+WantedBy=multi-user.target
+

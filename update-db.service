@@ -1,0 +1,9 @@
+[Unit]
+Description=Update Calibre DB with every startup of machine
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /media/Datas/Calibre/update-db.sh
+
+[Install]
+WantedBy=multi-user.target
