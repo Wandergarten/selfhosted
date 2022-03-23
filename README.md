@@ -76,6 +76,8 @@ where default:
 * ip_address: 'odroid' otherwise search with `ip a` in odroid terminal for the exact ip-address
 * passwd: 'odroid'
 
+Close the connection via `exit`.
+
 Hint: Configure local router to always assign the identical ip address to odroid.
 
 ### Emby Media Server
