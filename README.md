@@ -8,25 +8,25 @@
    * Data Provider: Umweltbundesamt ([link](https://luftdaten.berlin.de/station/mc117?group=pollution&period=1h&timespan=currentday&page=37) to [station](https://www.umweltbundesamt.de/daten/luft/luftdaten/luftqualitaet/eJzrWJSSuMrIwMhI18BY18hsUUnmIkPzRXmpC40XFZcsNjSzWJziVgRXYGi5OCUkH1l9bhXXotzkpsU5iSWnHbycQ2UWHl--OCcv_bSD1n2P-tOTdACgNySi))
    * API: [Description](https://www.umweltbundesamt.de/daten/luft/luftdaten/doc#tag/measurements) to [try out](https://luftqualitaet.api.bund.dev/)
    * Example w/ params day: 
-    * date_from: 2022-01-01  
-    * time_from: 1 (in range 1:24, with 1 == 00:00:00 to 01:00:00)
-    * date_to: 2022-01-01
-    * date_to: 2
-    * station: 168
-    * component: 1
-     * 1 = PM10: Feinstaub
-     * 2 = CO: Kohlenmonoxid
-     * 3 = O3: Ozon
-     * 4 = SO2: Schwefeldioxid
-     * 5 = NO2: Stickstoffdioxid
-     * 6 = PM10PB: Blei im Feinstaub
-     * 7 = PM10BAP: Benzo(a)pyren im Feinstaub
-     * 8 = CHB: Benzol
-     * 9 = PM2: Feinstaub
-     * 10 = PM10AS: Arsen im Feinstaub
-     * 11 = PM10CD: Cadmium im Feinstaub
-     * 12 = PM10NI: Nickel im Feinstaub
-   * scope = 1 (with 1 = hourly)  
+      * date_from: 2022-01-01  
+      * time_from: 1 (in range 1:24, with 1 == 00:00:00 to 01:00:00)
+      * date_to: 2022-01-01
+      * date_to: 2
+      * station: 168
+      * component: 1
+        * 1 = PM10: Feinstaub
+        * 2 = CO: Kohlenmonoxid
+        * 3 = O3: Ozon
+        * 4 = SO2: Schwefeldioxid
+        * 5 = NO2: Stickstoffdioxid
+        * 6 = PM10PB: Blei im Feinstaub
+        * 7 = PM10BAP: Benzo(a)pyren im Feinstaub
+        * 8 = CHB: Benzol
+        * 9 = PM2: Feinstaub
+        * 10 = PM10AS: Arsen im Feinstaub
+        * 11 = PM10CD: Cadmium im Feinstaub
+        * 12 = PM10NI: Nickel im Feinstaub
+     * scope = 1 (with 1 = hourly)  
  ```
 curl -X 'GET' \
   'https://umweltbundesamt.api.proxy.bund.dev/api/air_data/v2/measures/json?date_from=2022-01-01&time_from=1&date_to=2022-01-01&time_to=2&station=168&component=1&scope=2' \
