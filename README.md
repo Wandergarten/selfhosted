@@ -1,5 +1,71 @@
 # hardkerneled
 
+## TO DO: 
+* New Projects ideation: 
+ * Docker / Container Usage
+ * ELK vs Prometheus 
+   * Case: Luftqualität Berlin - Schildhornstraße
+   * Data Provider: Umweltbundesamt ([link](https://luftdaten.berlin.de/station/mc117?group=pollution&period=1h&timespan=currentday&page=37) to [station](https://www.umweltbundesamt.de/daten/luft/luftdaten/luftqualitaet/eJzrWJSSuMrIwMhI18BY18hsUUnmIkPzRXmpC40XFZcsNjSzWJziVgRXYGi5OCUkH1l9bhXXotzkpsU5iSWnHbycQ2UWHl--OCcv_bSD1n2P-tOTdACgNySi))
+   * API: [Description](https://www.umweltbundesamt.de/daten/luft/luftdaten/doc#tag/measurements) to [try out](https://luftqualitaet.api.bund.dev/)
+   * Example w/ params day: 
+    * date_from: 2022-01-01  
+    * time_from: 1 (in range 1:24, with 1 == 00:00:00 to 01:00:00)
+    * date_to: 2022-01-01
+    * date_to: 2
+    * station: 168
+    * component: 1
+     * 1 = PM10: Feinstaub
+     * 2 = CO: Kohlenmonoxid
+     * 3 = O3: Ozon
+     * 4 = SO2: Schwefeldioxid
+     * 5 = NO2: Stickstoffdioxid
+     * 6 = PM10PB: Blei im Feinstaub
+     * 7 = PM10BAP: Benzo(a)pyren im Feinstaub
+     * 8 = CHB: Benzol
+     * 9 = PM2: Feinstaub
+     * 10 = PM10AS: Arsen im Feinstaub
+     * 11 = PM10CD: Cadmium im Feinstaub
+     * 12 = PM10NI: Nickel im Feinstaub
+   * scope = 1 (with 1 = hourly)  
+ ```
+curl -X 'GET' \
+  'https://umweltbundesamt.api.proxy.bund.dev/api/air_data/v2/measures/json?date_from=2022-01-01&time_from=1&date_to=2022-01-01&time_to=2&station=168&component=1&scope=2' \
+  -H 'accept: application/json'  
+ ```
+   * Query w/ params: hourly, last 31 days, station = Schildhornstraße, Berlin
+   ```
+   https://luftdaten.berlin.de/station/mc117.csv?group=pollution&period=1h&timespan=custom&start%5Bdate%5D=26.02.2022&start%5Bhour%5D=18&end%5Bdate%5D=26.03.2022&end%5Bhour%5D=18
+   https://www.umweltbundesamt.de/api/air_data/v2/airquality/csv?date_from=2022-02-26&time_from=1&date_to=2022-03-27&time_to=1&station=168
+   ```
+* Test Energy Setup: Command Validation
+* HDD-Tools
+ * fstab: https://manpages.ubuntu.com/manpages/focal/de/man8/fsck.8.html für NTFS-Drives nutzbar?
+ * ntfsfix: https://superuser.com/questions/233700/fsck-an-ntfs-drive-in-linux
+ * ntfs-3g: https://askubuntu.com/a/47711
+* Glances Autostart:
+ * Fix problem using `glances.services` in `cd /etc/systemd/system/` via `sudo systemctl enable glances.service`
+ * Upload script to this git repo
+* Linux Image Backupper ([Ubunut Wiki](https://wiki.ubuntuusers.de/Datensicherung/))
+ * How to extract installed software / programs / applications? ([Ubunut Wiki](https://wiki.ubuntuusers.de/Datensicherung/#Weitere-Tipps))
+    * apt pkgs
+    * Python3 libs
+ * DECIDE CLI vs GUI? [Timeshift4Dummies](https://linuxconfig.org/ubuntu-20-04-system-backup-and-restore)
+ * DECIDE: Where to store backup? NTFS drive possible?
+ * DECIDE: Full vs incremental?
+ * DECIDE: backup medium
+   * NTFS drive
+   * identical twin: SanDisk 64GB SD card -> How to connect SD-Cardreader to odroid USB 3.0 Type 2 Port -> USBA-Hub + USBA2USBC-Adapter + USBC-Hub w/ SD Reader? FML :S vs USB 3.0 Hub w/ integrated SD reader
+ * HOW TO? Restore strategy?
+ * HOW TO? Automation strategy? [Scripting](https://ubuntu.com/server/docs/backups-shell-scripts)!
+ ```
+mkdir -pv /media/Backup/folder_name__`date +%Y%m%d`
+Backup/
+└── folder_name__20180910
+    ├── user
+    └── user1
+ ```
+ * HOW TO? / Which program to use? ([Ubunut Wiki](https://wiki.ubuntuusers.de/Datensicherung/#Programme)) \n `BorgBackup`, `dd`, `rdiff-backup`, `storeBackup`, `timeshift`, `CloneZilla`[Hint](https://askubuntu.com/q/19901)
+
 <img src="https://wiki.odroid.com/_media/odroid-xu4/hardware/xu4_detail.jpg">
 
 ## Hardware
@@ -213,6 +279,10 @@ sudo mount /dev/sda2 -t ntfs-3g -o permissions /media/Datas/
 ```
 /dev/sda2 /media/Datas ntfs-3g defaults 0 0
 ```
+### How to perform sanity checks on your HDD?
+TO DO
+
+Finally, consider using Windows' native tool `chkdsk` to do this the proper and safer way.
 
 ### How to perform a full image backup
 TO DO
@@ -262,7 +332,37 @@ sudo apt-get install python3-bottle
 sudo apt-get install -y htop
 sudo apt-get install -y dstat
 ```
+Monitor from network: 
+```
+glances -w
+```
 Navigate to [http://0.0.0.0:61208/](http://0.0.0.0:61208/) on your browser.
+
+Start glances on boot (see official [Glances Wiki entry](https://github.com/nicolargo/glances/wiki/Start-Glances-through-Systemd)):
+```
+cd /etc/systemd/system/
+touch glances.service
+sudo nano glances.service
+```
+Fill file with contents: 
+```
+[Unit]
+Description=Glances
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/glances -w
+Restart=on-abort
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable via `systemctl`: 
+```
+sudo systemctl enable glances.service
+```
 
 ### Where am I?
 `pwd`
@@ -276,4 +376,9 @@ watch -n 3 cat /sys/devices/virtual/thermal/thermal_zone*/temp
 allow execution: 
 ```
 chmod +x tempmon.sh
+```
+and perform execution: 
+```
+cd ./home/odroid/
+./tempmon/
 ```
