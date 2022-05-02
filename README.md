@@ -271,7 +271,7 @@ sudo blkid
 /dev/sda2: LABEL="MediaStash" UUID="2342343242" TYPE="ntfs" PTTYPE="atari" PARTLABEL="Basic data partition" PARTUUID="656rtzrtz-rtzrtz-rtzrtz-rtztz-rtzrtz"
 ```
 -> sda2 with UUI="2342343242"
-3. Create folder via `sudo mkdir /media/Datas` and mount the partition into `/media/Datas`
+3. Create folder via `sudo mkdir /media/Datas` and mount the partition into `/media/Datas`but first do `sudo umount /dev/sda2`
 ```
 sudo mount /dev/sda2 -t ntfs-3g -o permissions /media/Datas/
 ```
